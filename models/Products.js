@@ -33,10 +33,14 @@ const ProductSchema = mongoose.Schema(
       type: mongoose.Schema.ObjectId,
       ref: "User",
     },
-    Order_Database:{
-      type:mongoose.Schema.ObjectId,
-      ref:"OrderDatabase"
-    }
+    Order_Database: {
+      type: mongoose.Schema.ObjectId,
+      ref: "OrderDatabase",
+    },
+    Price: {
+      type: Number,
+      required: true,
+    },
   },
 
   { timestamps: true }

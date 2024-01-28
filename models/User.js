@@ -14,7 +14,7 @@ const UserSchema = mongoose.Schema(
       type: String,
       required: true,
     },
-    FirtName: {
+    FirstName: {
       type: String,
       required: true,
     },
@@ -40,7 +40,12 @@ const UserSchema = mongoose.Schema(
       type: mongoose.Schema.ObjectId,
       ref: "Cart",
     },
+    phoneNo:{
+      type:Number,
+      required:true
+    }
   },
+ 
 
   { timestamps: true }
 );
