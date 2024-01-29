@@ -3,8 +3,6 @@ import bodyParser from "body-parser";
 import cors from "cors";
 import dotenv from "dotenv";
 import mongoose from "mongoose";
-import Authentiction from "./routes/UserAuth.js";
-import { kafka } from "./apacheClient/apachekafka.js";
 dotenv.config();
 
 async function init() {
@@ -27,19 +25,19 @@ async function init() {
     await admin.disconnect();
   } catch (error) {
     console.error("Error in Kafka initialization:", error);
-    
-    process.exit(1); 
+
+    process.exit(1);
   }
 }
 
 const app = express();
-const PORT = process.env.PORT || 3001;
-const URI = process.env.URI;
+const PORT = 3002;
+
 app.use(cors());
 app.use(bodyParser.json());
 app.use(express.json());
-app.use("/api/auth", Authentiction);
 
+const URI = "mongodb://localhost:27017/scalable_backend_ecommerce";
 mongoose
   .connect(URI)
   .then(() => {

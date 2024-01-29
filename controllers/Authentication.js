@@ -17,7 +17,7 @@ export async function SignUp(req, res) {
       phoneNo,
     } = req.body;
 
-    const userExists = await User.findOne({ Email }); 
+    const userExists = await User.findOne({ Email });
 
     if (userExists) {
       return res.status(400).send({ message: "User already exists in DB" });
@@ -62,27 +62,27 @@ export const signin = async (req, res, next) => {
       return res.status(401).json({ message: "Invalid credentials" });
     }
 
-    const producer = kafka.producer();
+    // const producer = kafka.producer();
 
-    try {
-      console.log("Connecting Producer");
-      await producer.connect();
-      console.log("Producer Connected Successfully");
+    // try {
+    //   console.log("Connecting Producer");
+    //   await producer.connect();
+    //   console.log("Producer Connected Successfully");
 
-      await producer.send({
-        topic: "authentication-update",
-        messages: [
-          {
-            value: JSON.stringify(validUser),
-          },
-        ],
-      });
+    //   await producer.send({
+    //     topic: "authentication-update",
+    //     messages: [
+    //       {
+    //         value: JSON.stringify(validUser),
+    //       },
+    //     ],
+    //   });
 
-      console.log("Data sent successfully");
-    } finally {
-      await producer.disconnect();
-      console.log("Producer Disconnected");
-    }
+    //   console.log("Data sent successfully");
+    // } finally {
+    //   await producer.disconnect();
+    //   console.log("Producer Disconnected");
+    // }
 
     const { Password: hashedPassword, ...rest } = validUser._doc;
     const token = jwt.sign(
