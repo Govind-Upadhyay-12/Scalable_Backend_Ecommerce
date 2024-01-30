@@ -3,7 +3,7 @@ import bodyParser from "body-parser";
 import cors from "cors";
 import dotenv from "dotenv";
 import mongoose from "mongoose";
-dotenv.config();
+import AddProduct from "./routes/AddProduct.js";
 
 async function init() {
   try {
@@ -11,12 +11,12 @@ async function init() {
     console.log("admin connecting");
     await admin.connect();
     console.log("admin connection success");
-    console.log(`creating authentication [authenctication-update]`);
+    console.log(`creating Data [Add-data]`);
     await admin.createTopics({
       topics: [
         {
-          topic: "authentication-update",
-          numPartitions: 2,
+          topic: "Add-data",
+          numPartitions: 1,
         },
       ],
     });
@@ -25,8 +25,6 @@ async function init() {
     await admin.disconnect();
   } catch (error) {
     console.error("Error in Kafka initialization:", error);
-
-    process.exit(1);
   }
 }
 
@@ -36,11 +34,12 @@ const PORT = 3002;
 app.use(cors());
 app.use(bodyParser.json());
 app.use(express.json());
+app.use("/api/use", AddProduct);
 
 const URI = "mongodb://localhost:27017/scalable_backend_ecommerce";
 mongoose
-  .connect(URI)
-  .then(() => {
+  .connect(URI, {
+  }).then(() => {
     console.log("Connected to mongodb");
   })
   .catch((error) => {
@@ -48,6 +47,5 @@ mongoose
   });
 
 app.listen(PORT, () => {
-  // init();
   console.log(`server is running on Port ${PORT}`);
 });

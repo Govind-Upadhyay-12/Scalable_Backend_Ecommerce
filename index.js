@@ -18,8 +18,14 @@ async function init() {
       topics: [
         {
           topic: "authentication-update",
-          numPartitions: 2,
+          numPartitions: 1,
+          replicationFactor: 1
         },
+        {
+          topic:'add-product',
+          numPartitions:1,
+          replicationFactor: 1
+        }
       ],
     });
     console.log("topic created success[authentication-update]");
@@ -40,8 +46,7 @@ app.use(bodyParser.json());
 app.use(express.json());
 app.use("/api/auth", Authentiction);
 
-mongoose
-  .connect(URI)
+mongoose.connect(URI, { useNewUrlParser: true, useUnifiedTopology: true, socketTimeoutMS: 15000 })
   .then(() => {
     console.log("Connected to mongodb");
   })
@@ -50,6 +55,6 @@ mongoose
   });
 
 app.listen(PORT, () => {
-  // init();
+  init();
   console.log(`server is running on Port ${PORT}`);
 });
