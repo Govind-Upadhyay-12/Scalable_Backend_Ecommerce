@@ -1,5 +1,6 @@
 import { Worker } from "bullmq";
 import { db } from "./FireBase.js";
+
 import Product_MODEL from "./models/Products.js";
 
 const connectionOpts = {
@@ -15,14 +16,20 @@ const worker = new Worker(
       categoryType: job.data.categoryType,
       Price: job.data.Price,
     };
-
-    console.log(userJson);
+    console.log("Received job:", userJson);
 
     try {
-      const response = await db.collection("users").add(userJson);
+      const response = await new Product_MODEL({
+        product_name: job.data.name,
+        categoryType: job.data.categoryType,
+        Price: job.data.Price,
+      });
+      await response.save();
+      console.log("data saved");
     } catch (error) {
       console.error("Error saving to Firestore:", error);
     }
   },
   { connection: connectionOpts }
 );
+export default worker;
