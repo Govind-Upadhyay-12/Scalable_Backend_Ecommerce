@@ -22,7 +22,6 @@ export async function ADD_PRODUCT(req, res) {
     console.log("Job added to the queue", result.id);
 
     try {
-      
       console.log("Product saved to the database");
     } catch (saveError) {
       console.error("Error saving product to the database:", saveError);
@@ -34,5 +33,15 @@ export async function ADD_PRODUCT(req, res) {
   } catch (error) {
     console.error(error);
     return res.status(500).send({ message: "Internal Server Error" });
+  }
+}
+
+export async function GetAll(req, res) {
+  try {
+    const data = await Product_MODEL.find({});
+    return res.status(200).json(data);
+  } catch (error) {
+    console.log(error);
+    return res.status(500).send(error);
   }
 }

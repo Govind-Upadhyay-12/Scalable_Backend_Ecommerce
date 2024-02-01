@@ -2,7 +2,7 @@ import User from "../models/User.js";
 import bcryptjs from "bcryptjs";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
-import { kafka } from "../apacheClient/apachekafka.js";
+
 dotenv.config();
 
 export async function SignUp(req, res) {
@@ -61,29 +61,6 @@ export const signin = async (req, res, next) => {
     if (!validPassword) {
       return res.status(401).json({ message: "Invalid credentials" });
     }
-
-    // const producer = kafka.producer();
-
-    // try {
-    //   console.log("Connecting Producer");
-    //   await producer.connect();
-    //   console.log("Producer Connected Successfully");
-
-    //   await producer.send({
-    //     topic: "authentication-update",
-    //     messages: [
-    //       {
-    //         value: JSON.stringify(validUser),
-    //       },
-    //     ],
-    //   });
-
-    //   console.log("Data sent successfully");
-    // } finally {
-    //   await producer.disconnect();
-    //   console.log("Producer Disconnected");
-    // }
-
     const { Password: hashedPassword, ...rest } = validUser._doc;
     const token = jwt.sign(
       { email: validUser.Email, id: validUser._id },

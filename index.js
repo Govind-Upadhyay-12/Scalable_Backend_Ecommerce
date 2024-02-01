@@ -4,39 +4,9 @@ import cors from "cors";
 import dotenv from "dotenv";
 import mongoose from "mongoose";
 import Authentiction from "./routes/UserAuth.js";
-dotenv.config();
+import GetData from "./routes/GetData.js";
 
-// async function init() {
-//   try {
-//     const admin = kafka.admin();
-//     console.log("admin connecting");
-//     await admin.connect();
-//     console.log("admin connection success");
-//     console.log(`creating authentication [authenctication-update]`);
-//     await admin.createTopics({
-//       topics: [
-//         {
-//           topic: "authentication-update",
-//           numPartitions: 1,
-//           replicationFactor: 1
-//         },
-//         {
-//           topic:'add-product',
-//           numPartitions:1,
-//           replicationFactor: 1
-//         }
-//       ],
-//     });
-//     console.log("topic created success[authentication-update]");
-//     console.log("Disconnecting Admin..");
-//     await admin.disconnect();
-//   } catch (error) {
-//     console.error("Error in Kafka initialization:", error);
-
-//     process.exit(1);
-//   }
-// }
-
+dotenv.config()
 const app = express();
 const PORT = process.env.PORT || 3001;
 const URI = process.env.URI;
@@ -44,10 +14,11 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use(express.json());
 app.use("/api/auth", Authentiction);
+app.use("/api/use",GetData);
+
 
 mongoose
-  .connect(URI, {
-  })
+  .connect(URI, {})
   .then(() => {
     console.log("Connected to mongodb");
   })
@@ -56,6 +27,5 @@ mongoose
   });
 
 app.listen(PORT, () => {
-  init();
   console.log(`server is running on Port ${PORT}`);
 });
