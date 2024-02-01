@@ -17,6 +17,7 @@ app.use("/api/auth", Authentiction);
 app.use("/api/use",GetData);
 
 
+
 mongoose
   .connect(URI, {})
   .then(() => {

@@ -1,5 +1,6 @@
 import Product_MODEL from "../models/Products.js";
 import { Queue } from "bullmq";
+import client from "../../redisclient/client.js";
 
 const connectionOpts = {
   host: "127.0.0.1",
@@ -9,6 +10,8 @@ export async function ADD_PRODUCT(req, res) {
   try {
     const { product_name, categoryType, Price } = req.body;
     console.log(req.body);
+    client.del("all-data");
+    console.log("data_reset in redis");
 
     const notificationQueue = new Queue("data-queue", {
       connection: connectionOpts,
@@ -43,5 +46,33 @@ export async function GetAll(req, res) {
   } catch (error) {
     console.log(error);
     return res.status(500).send(error);
+  }
+}
+
+export async function GetById(req, res) {
+  try {
+    console.log("aara hai yaha tk to");
+    const { id } = req.params;
+    const Data = await Product_MODEL.findById(id);
+    if (Data) {
+      return res.status(200).json(Data);
+    }
+  } catch (error) {
+    console.log(error);
+    return res.status(500).send({ message: error });
+  }
+}
+
+export async function DeleteById(req, res) {
+  try {
+    const { id } = req.params;
+    const data = client.del(`data-${id}`);
+    console.log("redis_reset_successfully");
+
+    const find_product = Product_MODEL.findByIdAndDelete(id);
+    return res.status(200).send({ message: "successfully deleted" });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).send({ message: error });
   }
 }
