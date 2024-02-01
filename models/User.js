@@ -8,7 +8,7 @@ const UserSchema = mongoose.Schema(
     },
     User_Name: {
       type: String,
-      required: true
+      required: true,
     },
     Password: {
       type: String,
@@ -40,13 +40,11 @@ const UserSchema = mongoose.Schema(
       type: mongoose.Schema.ObjectId,
       ref: "Cart",
     },
-    phoneNo:{
-      type:Number,
-      required:true
-    }
+    phoneNo: {
+      type: Number,
+      required: true,
+    },
   },
- 
-
   { timestamps: true }
 );
 

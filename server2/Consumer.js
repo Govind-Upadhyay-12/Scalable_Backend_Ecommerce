@@ -1,6 +1,5 @@
 import { Worker } from "bullmq";
 import { db } from "./FireBase.js";
-
 import Product_MODEL from "./models/Products.js";
 
 const connectionOpts = {
