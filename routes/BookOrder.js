@@ -2,6 +2,14 @@ import express from "express";
 import axios from "axios";
 import User from "../models/User.js";
 import { db } from "../server2/FireBase.js";
+import { Queue } from "bullmq";
+
+
+
+const connectionOpts = {
+  host: "127.0.0.1",
+  port: 6379,
+};
 
 const router = express.Router();
 
@@ -25,29 +33,45 @@ router.post("/BookOrder/:id/:id1", async (req, res) => {
   try {
     const { id, id1 } = req.params;
     const userFind = await User.findById(id).populate("Address");
+    console.log(userFind)
 
-    console.log(userFind);
+    const Address_Detail = userFind.Address;
+    const insertData = JSON.stringify(Address_Detail);
 
-    let realdata;
     try {
-      const response = await axios.get(
+      var response = await axios.get(
         `http://localhost:3002/api/use/getData/${id1}`
       );
-      realdata = response.data;
-      console.log("data agya ", realdata);
+      
     } catch (error) {
       console.log(error);
     }
+    const realdata = response.data;
+    const actual = JSON.stringify(realdata);
 
     userFind.Item_Booked.push(id1);
     await userFind.save();
 
-    const orderDetailsRef = await db
-      .collection("order_details")
-      .add({ data: realdata });
-    const userDetailsRef = await orderDetailsRef
-      .collection("userdetails")
-      .add({ user: userFind.toJSON() });
+    const data_arr = [userFind];
+
+    const All_Details_Archieve = {
+      userDetails: insertData,
+      item_name: actual,
+    };
+
+    const update_archieve = await db
+      .collection("archieve")
+      .add(All_Details_Archieve);
+
+    console.log("hogya firebase me bhi");
+
+    const Order_confirm=new Queue("add-data",{
+      connection:connectionOpts,
+    })
+    const result=await Order_confirm.add("sending-data",{
+      orderDetails:actual
+    })
+    console.log("job added to the queue and sent ",result.id);
 
     return res
       .status(200)

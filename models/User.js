@@ -36,10 +36,10 @@ const UserSchema = mongoose.Schema(
         ref: "Address",
       },
     ],
-    Item_Booked: {
+    Item_Booked: [{
       type: mongoose.Schema.ObjectId,
-      ref: "Cart",
-    },
+      ref:"Product"
+    }],
     phoneNo: {
       type: Number,
       required: true,

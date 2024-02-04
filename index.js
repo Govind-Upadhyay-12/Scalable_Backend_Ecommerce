@@ -8,6 +8,7 @@ import GetData from "./routes/GetData.js";
 import SearchCategory from "./routes/SearchCategory.js";
 import AddToCart from "./routes/BookOrder.js";
 import Address from "./routes/AddressUser.js";
+import worker from "./consumer.js";
 dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 3001;
