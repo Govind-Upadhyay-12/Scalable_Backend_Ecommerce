@@ -21,28 +21,27 @@ const ProductSchema = mongoose.Schema(
         "sports",
       ],
     },
-    Details: {
+    Details: [{
       type: mongoose.Schema.ObjectId,
       ref: "Details",
-    },
-    Review: {
+    }],
+    Review: [{
       type: mongoose.Schema.ObjectId,
       ref: "Review",
-    },
-    BookedBy: {
+    }],
+    BookedBy: [{
       type: mongoose.Schema.ObjectId,
       ref: "User",
-    },
-    Order_Database: {
+    }],
+    Order_Database: [{
       type: mongoose.Schema.ObjectId,
       ref: "OrderDatabase",
-    },
+    }],
     Price: {
       type: Number,
       required: true,
     },
   },
-
   { timestamps: true }
 );
 

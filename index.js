@@ -5,8 +5,9 @@ import dotenv from "dotenv";
 import mongoose from "mongoose";
 import Authentiction from "./routes/UserAuth.js";
 import GetData from "./routes/GetData.js";
+import SearchCategory from "./routes/SearchCategory.js";
 
-dotenv.config()
+dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 3001;
 const URI = process.env.URI;
@@ -14,9 +15,8 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use(express.json());
 app.use("/api/auth", Authentiction);
-app.use("/api/use",GetData);
-
-
+app.use("/api/use", GetData);
+app.use("/api/use",SearchCategory);
 
 mongoose
   .connect(URI, {})

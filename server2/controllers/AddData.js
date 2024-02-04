@@ -1,6 +1,7 @@
 import Product_MODEL from "../models/Products.js";
 import { Queue } from "bullmq";
 import client from "../../redisclient/client.js";
+import Details_MODEL from "../models/Details.js";
 
 const connectionOpts = {
   host: "127.0.0.1",
@@ -74,5 +75,40 @@ export async function DeleteById(req, res) {
   } catch (error) {
     console.log(error);
     return res.status(500).send({ message: error });
+  }
+}
+
+export async function AddDetail(req, res) {
+  console.log(req.body);
+  try {
+    const { id } = req.params;
+    const { color, size, brand, material, weight } = req.body;
+
+    const find_product = await Product_MODEL.findById(id);
+
+    const createData = new Details_MODEL({
+      brand,
+      material,
+      weight,
+      size,
+      color,
+    });
+
+    await createData.save();
+    console.log("Data saved");
+
+    const id_of_data = createData._id;
+
+    find_product.Details.push(id_of_data);
+
+    await find_product.save();
+    console.log("Data updated");
+
+    return res.status(200).send({ message: "Details added successfully" });
+  } catch (error) {
+    console.error(error);
+    return res
+      .status(500)
+      .send({ message: "Internal Server Error", error: error.message });
   }
 }
