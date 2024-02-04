@@ -44,6 +44,12 @@ const UserSchema = mongoose.Schema(
       type: Number,
       required: true,
     },
+    Cart_Item:[
+      {
+        type:mongoose.Schema.ObjectId,
+        ref:"Product"
+      }
+    ]
   },
   { timestamps: true }
 );

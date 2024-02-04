@@ -1,22 +1,24 @@
 import mongoose from "mongoose";
-const Address = mongoose.Schema({
-    Country:{
-        type:String,
+const Address = mongoose.Schema(
+  {
+    Country: {
+      type: String,
     },
-    city:{
-        type:String
+    city: {
+      type: String,
     },
-    Address_Line1:{
-        type:String,
+    Address_Line1: {
+      type: String,
     },
-    Office_Address:{
-        type:String
+    Office_Address: {
+      type: String,
     },
-    Zip_code:{
-        type:String,
-    }
-    
-}, { timestamps: true });
+    Zip_code: {
+      type: String,
+    },
+  },
+  { timestamps: true }
+);
 
-const Address_Schema=mongoose.model("Address",Address);
+const Address_Schema = mongoose.model("Address", Address);
 export default Address_Schema;

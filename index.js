@@ -6,7 +6,8 @@ import mongoose from "mongoose";
 import Authentiction from "./routes/UserAuth.js";
 import GetData from "./routes/GetData.js";
 import SearchCategory from "./routes/SearchCategory.js";
-
+import AddToCart from "./routes/BookOrder.js";
+import Address from "./routes/AddressUser.js";
 dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -16,7 +17,9 @@ app.use(bodyParser.json());
 app.use(express.json());
 app.use("/api/auth", Authentiction);
 app.use("/api/use", GetData);
-app.use("/api/use",SearchCategory);
+app.use("/api/use", SearchCategory);
+app.use("/api/use", AddToCart);
+app.use("/api/use", Address);
 
 mongoose
   .connect(URI, {})
@@ -25,6 +28,7 @@ mongoose
   })
   .catch((error) => {
     console.error("Error connecting to MongoDB:", error.message);
+    process.exit(1);
   });
 
 app.listen(PORT, () => {

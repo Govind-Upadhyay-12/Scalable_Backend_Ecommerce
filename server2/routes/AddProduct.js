@@ -6,8 +6,6 @@ import {
   GetById,
   DeleteById,
   AddDetail,
-  
-
 } from "../controllers/AddData.js";
 
 router.post("/addProduct", ADD_PRODUCT);
