@@ -1,5 +1,6 @@
 import express from "express";
 import Product_MODEL from "../models/Products.js";
+import User from "../../models/User.js";
 
 
 const router = express.Router();
@@ -41,6 +42,27 @@ router.post("/searchByFilter", async (req, res) => {
   } catch (error) {
     console.log(error);
     return  res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+
+
+router.post("/Book_Bulk", async (req, res) => {
+  try {
+    const { data } = req.body;
+    let sum = 0;
+
+    for (let i = 0; i < data.length; i++) {
+      const id1 = data[i];
+      const productFind = await Product_MODEL.findById(id1);
+      sum += productFind.Price;
+    }
+
+    return res.status(200).json({
+      price: sum
+    });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).send({ message: error });
   }
 });
 
