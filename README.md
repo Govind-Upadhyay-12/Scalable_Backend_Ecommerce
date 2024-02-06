@@ -1,6 +1,5 @@
-![Uploading doc1.jpg…]()
+![Uploading image.png…]()
 
-![Uploading doc2.png…]()
 
 <h1>Scalabale Backend Ecommerce Microservices</h1>
 <h3>To run on locally-->npm install</h3>
